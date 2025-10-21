@@ -51,3 +51,6 @@ htmlcov/
 *.log
 logs/
 
+# Artifacts (ML models and preprocessed data)
+artifacts/
+
