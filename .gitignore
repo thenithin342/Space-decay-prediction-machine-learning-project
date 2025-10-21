@@ -3,6 +3,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -13,14 +19,35 @@ venv/
 env/
 ENV/
 .venv
+*.virtualenv
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+.spyderproject
+.spyproject
+.ropeproject
 
 # OS
 .DS_Store
 Thumbs.db
+*.bak
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Data files (optional - uncomment if you don't want to track large data files)
+# *.csv
+# *.pkl
+# *.h5
+# *.json
+
+# Logs
+*.log
+logs/
 

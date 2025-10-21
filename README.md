@@ -239,41 +239,93 @@ git clone https://github.com/thenithin342/Space-decay-prediction-machine-learnin
 cd Space-decay-prediction-machine-learning-project
 ```
 
-2. Install required packages:
+2. Install the package and dependencies:
+
+**Option A: Install from requirements.txt**
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn jupyter
+pip install -r requirements.txt
 ```
 
-3. Optional (for XGBoost):
+**Option B: Install as a package (recommended for development)**
 ```bash
-pip install xgboost
+pip install -e .
 ```
 
-4. Launch Jupyter Notebook:
+This will install all required dependencies and make the `src` package importable.
+
+3. Verify installation:
 ```bash
-jupyter notebook space.ipynb
+python -c "from src import SpaceObjectClassifier; print('Installation successful!')"
 ```
 
 ## 📖 Usage
 
-### Using the Trained Model
+### Option 1: Using the Python Package (Recommended)
 
-The project includes saved model files ready for predictions:
+The project is now structured as a Python package with modular components:
 
 ```python
-import pickle
+from src.data_preprocessing import DataPreprocessor
+from src.feature_engineering import FeatureEngineer
+from src.model import SpaceObjectClassifier
+from src.utils import load_dataset, save_model, load_model
+
+# Load and preprocess data
+df = load_dataset('space_decay.csv')
+preprocessor = DataPreprocessor()
+df_clean = preprocessor.preprocess_pipeline(df, target_column='OBJECT_TYPE')
+
+# Feature engineering
+engineer = FeatureEngineer()
+df_engineered = engineer.create_orbit_categories(df_clean)
+
+# Train model
+classifier = SpaceObjectClassifier(model_type='random_forest')
+classifier.train(X_train, y_train, use_smote=True)
+
+# Evaluate
+metrics = classifier.evaluate(X_test, y_test)
+
+# Save model
+save_model(classifier, 'best_model.pkl')
+```
+
+### Option 2: Run Example Scripts
+
+**Complete Pipeline Example:**
+```bash
+python example_usage.py
+```
+
+This script demonstrates the entire workflow from data loading to model evaluation.
+
+**Quick Predictions:**
+```bash
+python predict.py
+```
+
+This script loads the trained model and makes predictions on sample data.
+
+### Option 3: Using the Jupyter Notebook
+
+For exploratory analysis and visualization:
+```bash
+jupyter notebook space.ipynb
+```
+
+### Option 4: Using Pre-trained Model
+
+Load and use the saved model directly:
+
+```python
+from src.utils import load_model
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 
-# Load the trained model
-with open('best_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# Load trained model and scaler
+model = load_model('best_model.pkl')
+scaler = load_model('scaler.pkl')
 
-# Load the scaler
-with open('scaler.pkl', 'rb') as f:
-    scaler = pickle.load(f)
-
-# Prepare new data (example)
+# Prepare new data
 new_data = pd.DataFrame({
     'MEAN_MOTION': [12.96],
     'ECCENTRICITY': [0.0026],
@@ -303,14 +355,54 @@ print(f"Predicted class: {prediction[0]}")
 ```
 Space-decay-prediction-machine-learning-project/
 │
-├── space.ipynb              # Main Jupyter notebook with complete analysis
-├── space_backup.ipynb       # Backup notebook
-├── space_decay.csv          # Dataset (14,372 orbital records)
-├── best_model.pkl           # Trained Random Forest model
-├── scaler.pkl              # Fitted StandardScaler
-├── README.md               # Project documentation
-└── .gitignore              # Git ignore file
+├── src/                           # Source package
+│   ├── __init__.py               # Package initialization
+│   ├── data_preprocessing.py     # Data cleaning and preprocessing
+│   ├── feature_engineering.py    # Feature creation and selection
+│   ├── model.py                  # Model training and evaluation
+│   └── utils.py                  # Utility functions
+│
+├── space.ipynb                   # Main Jupyter notebook with complete analysis
+├── space_backup.ipynb            # Backup notebook
+├── space_decay.csv               # Dataset (14,372 orbital records)
+│
+├── example_usage.py              # Complete pipeline example
+├── predict.py                    # Simple prediction script
+│
+├── best_model.pkl                # Trained Random Forest model
+├── scaler.pkl                    # Fitted StandardScaler
+│
+├── requirements.txt              # Project dependencies
+├── setup.py                      # Package installation script
+├── README.md                     # Project documentation
+└── .gitignore                    # Git ignore file
 ```
+
+### Package Modules
+
+**`src/data_preprocessing.py`**
+- `DataPreprocessor` class for data cleaning
+- Missing value handling
+- Outlier detection
+- Feature encoding and scaling
+
+**`src/feature_engineering.py`**
+- `FeatureEngineer` class for feature creation
+- Orbital category creation
+- PCA transformation
+- Feature selection
+
+**`src/model.py`**
+- `SpaceObjectClassifier` class for model training
+- Support for multiple algorithms
+- Cross-validation
+- Comprehensive evaluation metrics
+
+**`src/utils.py`**
+- Model save/load functions
+- Dataset loading utilities
+- Class imbalance checking
+- Helper functions
 
 ## 🎓 Key Learnings
 
