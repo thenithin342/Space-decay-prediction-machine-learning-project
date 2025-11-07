@@ -7,11 +7,6 @@ A machine learning package for classifying space objects and predicting orbital 
 __version__ = "1.0.0"
 __author__ = "thenithin342"
 
-# Legacy modules
-from .data_preprocessing import DataPreprocessor
-from .feature_engineering import FeatureEngineer
-from .model import SpaceObjectClassifier
-
 # Utility modules
 from .utils import load_model, save_model
 from .logger import logger, get_logger, LoggerConfig
@@ -40,10 +35,6 @@ from .pipeline import (
 )
 
 __all__ = [
-    # Legacy
-    "DataPreprocessor",
-    "FeatureEngineer",
-    "SpaceObjectClassifier",
     # Utils
     "load_model",
     "save_model",

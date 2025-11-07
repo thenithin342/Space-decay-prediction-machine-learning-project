@@ -6,10 +6,32 @@ Handles prediction on new data using trained models.
 
 import sys
 import os
+import shutil
 import pandas as pd
 from src.exception import CustomException, PredictionError
 from src.logger import logger
 from src.utils import load_model
+
+# Determine project root directory (parent of src directory)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ARTIFACTS_DIR = os.path.join(PROJECT_ROOT, "artifacts")
+DEFAULT_MODEL_PATH = os.path.join(ARTIFACTS_DIR, "model.pkl")
+DEFAULT_PREPROCESSOR_PATH = os.path.join(ARTIFACTS_DIR, "preprocessor.pkl")
+FALLBACK_MODEL_PATH = os.path.join(PROJECT_ROOT, "notebook", "data", "best_model.pkl")
+FALLBACK_PREPROCESSOR_PATH = os.path.join(PROJECT_ROOT, "notebook", "data", "scaler.pkl")
+
+
+def ensure_model_artifact():
+    """Ensure model and preprocessor artifacts exist, copying from fallback if needed."""
+    os.makedirs(ARTIFACTS_DIR, exist_ok=True)
+    # If the primary model is missing but a fallback exists, copy it
+    if not os.path.exists(DEFAULT_MODEL_PATH) and os.path.exists(FALLBACK_MODEL_PATH):
+        shutil.copyfile(FALLBACK_MODEL_PATH, DEFAULT_MODEL_PATH)
+        logger.info(f"Copied fallback model from {FALLBACK_MODEL_PATH} to {DEFAULT_MODEL_PATH}")
+    # Ensure the matching preprocessor exists as well
+    if not os.path.exists(DEFAULT_PREPROCESSOR_PATH) and os.path.exists(FALLBACK_PREPROCESSOR_PATH):
+        shutil.copyfile(FALLBACK_PREPROCESSOR_PATH, DEFAULT_PREPROCESSOR_PATH)
+        logger.info(f"Copied fallback preprocessor from {FALLBACK_PREPROCESSOR_PATH} to {DEFAULT_PREPROCESSOR_PATH}")
 
 
 class PredictPipeline:
@@ -22,6 +44,8 @@ class PredictPipeline:
         Initialize PredictPipeline.
         """
         logger.info("PredictPipeline initialized")
+        # Ensure artifacts exist before trying to load them
+        ensure_model_artifact()
     
     def predict(self, features):
         """
@@ -40,17 +64,28 @@ class PredictPipeline:
         try:
             logger.info("Starting prediction process")
             
-            # Load preprocessor and model
-            model_path = os.path.join("artifacts", "model.pkl")
-            preprocessor_path = os.path.join("artifacts", "preprocessor.pkl")
+            # Use absolute paths based on project root
+            model_path = DEFAULT_MODEL_PATH
+            preprocessor_path = DEFAULT_PREPROCESSOR_PATH
             
-            logger.info("Loading model and preprocessor")
+            logger.info(f"Loading model from: {model_path}")
+            logger.info(f"Loading preprocessor from: {preprocessor_path}")
             model = load_model(filepath=model_path)
             preprocessor = load_model(filepath=preprocessor_path)
             
             # Transform features
             logger.info("Transforming input features")
-            data_scaled = preprocessor.transform(features)
+            if not isinstance(features, pd.DataFrame):
+                raise PredictionError("Features must be a pandas DataFrame", sys)
+
+            # Coerce all columns to numeric where possible to avoid string-to-float errors; non-convertible
+            # values become NaN and are handled by imputers in the preprocessor.
+            try:
+                features_numeric = features.apply(pd.to_numeric, errors="coerce")
+            except Exception:
+                features_numeric = features
+
+            data_scaled = preprocessor.transform(features_numeric)
             
             # Make predictions
             logger.info("Making predictions")

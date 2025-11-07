@@ -1,0 +1,1129 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Professional caption styling
+\captionsetup{
+    format=plain,
+    labelfont=bf,
+    textfont=it,
+    labelsep=colon,
+    font=small,
+    justification=centering,
+    singlelinecheck=false
+}
+
+\captionsetup[table]{
+    skip=10pt,
+    font=small,
+    labelfont={bf,color=primaryblue}
+}
+
+\captionsetup[figure]{
+    skip=10pt,
+    font=small,
+    labelfont={bf,color=primaryblue}
+}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+% Professional color scheme
+\definecolor{primaryblue}{RGB}{0,51,102}
+\definecolor{secondaryblue}{RGB}{0,102,204}
+\definecolor{accentorange}{RGB}{255,140,0}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{darkgray}{RGB}{64,64,64}
+\definecolor{codeblue}{RGB}{0,102,204}
+\definecolor{codegreen}{RGB}{0,153,76}
+\definecolor{codered}{RGB}{204,0,51}
+
+% Page setup with better margins
+\geometry{
+    margin=1in,
+    headheight=15pt,
+    footskip=30pt
+}
+
+% Enhanced hyperref settings
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    filecolor=primaryblue,
+    urlcolor=secondaryblue,
+    citecolor=primaryblue,
+    pdftitle={Space Debris Classification - Machine Learning Project Report},
+    pdfauthor={IDSE Project Team},
+    pdfsubject={Machine Learning Classification},
+    pdfkeywords={Space Debris, Machine Learning, Classification, Random Forest}
+}
+
+% Professional header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\fancyhead[L]{\textcolor{primaryblue}{\leftmark}}
+\fancyhead[R]{\textcolor{primaryblue}{\thepage}}
+\fancyfoot[C]{\textcolor{darkgray}{\small Space Debris Classification Project Report}}
+\fancyfoot[R]{\textcolor{darkgray}{\small November 8, 2025}}
+
+% Professional section title formatting
+\titleformat{\section}
+{\Large\bfseries\color{primaryblue}}
+{\thesection}{1em}{}
+[\color{primaryblue}\titlerule]
+
+\titleformat{\subsection}
+{\large\bfseries\color{secondaryblue}}
+{\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+{\normalsize\bfseries\color{darkgray}}
+{\thesubsubsection}{1em}{}
+
+% Enhanced table of contents
+\contentsmargin{0cm}
+\titlecontents{section}
+[1.5cm]
+{\addvspace{0.5pc}\bfseries\color{primaryblue}}
+{\contentslabel{1.5cm}}
+{\hspace*{-1.5cm}}
+{\titlerule*[0.5pc]{.}\contentspage}
+
+\titlecontents{subsection}
+[3.5cm]
+{\addvspace{0.3pc}\color{secondaryblue}}
+{\contentslabel{2cm}}
+{\hspace*{-2cm}}
+{\titlerule*[0.5pc]{.}\contentspage}
+
+% Professional abstract formatting
+\renewenvironment{abstract}
+{
+    \begin{center}
+    \vspace{0.5cm}
+    {\large\textbf{\textcolor{primaryblue}{ABSTRACT}}\\[0.3cm]}
+    \end{center}
+    \begin{quotation}
+    \noindent
+    \itshape
+}
+{
+    \end{quotation}
+    \vspace{0.5cm}
+}
+
+% Professional code listing style
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small\color{darkgray},
+    keywordstyle=\color{codeblue}\bfseries,
+    commentstyle=\color{codegreen}\itshape,
+    stringstyle=\color{codered},
+    numbers=left,
+    numberstyle=\tiny\color{darkgray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{lightgray},
+    frame=leftline,
+    framerule=2pt,
+    rulecolor=\color{primaryblue},
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    tabsize=4,
+    captionpos=b,
+    aboveskip=10pt,
+    belowskip=10pt
+}
+
+% Enhanced table styling
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{10pt}
+
+% Professional itemize and enumerate
+\setlist[itemize]{leftmargin=*,itemsep=0.1cm,topsep=0.2cm}
+\setlist[enumerate]{leftmargin=*,itemsep=0.1cm,topsep=0.2cm}
+
+% Better spacing
+\setlength{\parindent}{0.5cm}
+\setlength{\parskip}{0.3cm}
+\linespread{1.15}
+
+% Professional table command
+\newcommand{\proftable}[4]{
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{#1}
+    \toprule
+    #2
+    \midrule
+    #3
+    \bottomrule
+    \end{tabular}
+    \caption{#4}
+    \end{table}
+}
+
+% Highlight important metrics
+\newcommand{\highlight}[1]{\textcolor{primaryblue}{\textbf{#1}}}
+\newcommand{\metric}[1]{\textcolor{secondaryblue}{\textbf{#1}}}
+
+% Title information
+\title{\textbf{Space Debris Classification\\Machine Learning Project Report}}
+\author{IDSE Project}
+\date{November 8, 2025}
+
+\begin{document}
+
+% Professional title page
+\pagestyle{empty}
+\fancyhf{} % Clear all headers and footers
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\vspace*{0pt}
+\vfill
+
+% Top decorative line
+\begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=2pt,color=primaryblue] 
+        ([yshift=-2cm]current page.north west) -- 
+        ([yshift=-2cm]current page.north east);
+\end{tikzpicture}
+
+\vspace{2cm}
+
+% Main title
+{\Huge\bfseries\color{primaryblue} Space Debris Classification\par}
+\vspace{0.8cm}
+{\Large\color{secondaryblue} Machine Learning Project Report\par}
+
+\vspace{2cm}
+
+% Subtitle
+{\large\color{darkgray} IDSE Project\par}
+
+\vspace{2.5cm}
+
+% Team members section
+\begin{minipage}{0.8\textwidth}
+\centering
+{\Large\bfseries\color{primaryblue} Team Members\par}
+\vspace{0.8cm}
+
+\begin{tabular}{@{}p{6cm}@{\hspace{2cm}}p{4cm}@{}}
+\toprule
+\textbf{Name} & \textbf{Roll Number} \\
+\midrule
+Sai Nithin & CS23I1001 \\
+\addlinespace[0.3cm]
+Rohith Karthik & CS23I1011 \\
+\addlinespace[0.3cm]
+Sripadha & CS23I1018 \\
+\addlinespace[0.3cm]
+Sreekar & CS23I1034 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+
+\vfill
+
+% Bottom decorative line and date
+\begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=2pt,color=primaryblue] 
+        ([yshift=2cm]current page.south west) -- 
+        ([yshift=2cm]current page.south east);
+\end{tikzpicture}
+
+\vspace{1.5cm}
+{\large\color{darkgray} November 8, 2025\par}
+\vspace{1cm}
+
+\end{titlepage}
+\clearpage
+
+% Start page numbering from page 2
+\pagestyle{fancy}
+\setcounter{page}{2}
+
+\begin{abstract}
+This report presents a comprehensive machine learning project for classifying space debris and satellite objects based on orbital parameters. The project implements a complete data science pipeline from data ingestion to model deployment, achieving 93.65\% accuracy using a Random Forest classifier. The dataset consists of 14,372 orbital records with 40 features, classifying objects into four categories: DEBRIS, PAYLOAD, ROCKET BODY, and TBA. The project demonstrates best practices in data preprocessing, feature engineering, model evaluation, and production deployment.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\subsection{Project Overview}
+Space debris tracking and classification is a critical challenge in modern space operations. With thousands of objects orbiting Earth, accurate classification helps in collision avoidance, space traffic management, and understanding orbital decay patterns. This project develops a machine learning system to automatically classify space objects based on their orbital characteristics.
+
+\subsection{Objectives}
+\begin{itemize}
+    \item Build a robust classification model for space object types
+    \item Implement a complete data science pipeline from raw data to deployment
+    \item Achieve high accuracy while handling class imbalance
+    \item Create a production-ready system with web interface
+\end{itemize}
+
+\subsection{Dataset Description}
+The dataset contains orbital parameters and metadata for space objects:
+\begin{itemize}
+    \item \textbf{Size:} 14,372 rows × 40 columns
+    \item \textbf{Source:} Space debris orbital data from satellite tracking systems
+    \item \textbf{Target Variable:} OBJECT\_TYPE (4 classes)
+    \item \textbf{Key Features:} Orbital parameters (mean motion, eccentricity, inclination), physical characteristics (BSTAR drag term), and metadata (country code, classification type)
+\end{itemize}
+
+\subsection{Methodology}
+This project follows a systematic machine learning pipeline approach, implementing industry best practices for data science projects. The methodology encompasses the following key phases:
+
+\subsubsection{Data Cleaning Approach}
+\begin{itemize}
+    \item \textbf{Missing Value Handling:} Identified columns with missing data and applied appropriate imputation strategies. Numerical features were filled with median values (robust to outliers), while categorical features were filled with mode values. Columns with 100\% missing data were removed.
+    \item \textbf{Outlier Detection:} Applied Interquartile Range (IQR) method to identify potential outliers. Outliers were retained as they represent legitimate space phenomena (e.g., highly eccentric orbits, Molniya orbits).
+    \item \textbf{Duplicate Detection:} Checked for and removed duplicate records to ensure data quality.
+\end{itemize}
+
+\subsubsection{Feature Engineering Methods}
+\begin{itemize}
+    \item \textbf{Feature Selection:} Selected 15 relevant features from the original 40 columns, focusing on orbital parameters and physical characteristics that are most predictive of object type.
+    \item \textbf{Feature Creation:} Engineered two new categorical features:
+    \begin{itemize}
+        \item Orbit Eccentricity Category (Circular, Elliptical, Highly Elliptical)
+        \item Altitude Category (LEO, MEO, GEO, Beyond GEO)
+    \end{itemize}
+    \item \textbf{Dimensionality Reduction:} Applied Principal Component Analysis (PCA) to identify key components explaining 95\% of variance, reducing dimensionality while preserving information.
+\end{itemize}
+
+\subsubsection{Preprocessing Steps}
+\begin{itemize}
+    \item \textbf{Data Splitting:} Implemented stratified train-validation-test split (70-15-15) to maintain class distribution across splits and prevent data leakage.
+    \item \textbf{Encoding:} Applied label encoding for categorical variables (\texttt{COUNTRY\_CODE}, \texttt{CLASSIFICATION\_TYPE}) and target encoding for the multi-class target variable.
+    \item \textbf{Scaling:} Applied StandardScaler to all numerical features, fitted exclusively on training data to prevent data leakage.
+    \item \textbf{Class Imbalance Handling:} Detected significant class imbalance (ratio: 34.13:1) and applied class weights ('balanced') in model training to address this challenge.
+\end{itemize}
+
+\subsubsection{Model Selection Criteria}
+\begin{itemize}
+    \item \textbf{Baseline Model:} Started with Logistic Regression as a simple, interpretable baseline to establish performance benchmarks.
+    \item \textbf{Model Comparison:} Evaluated multiple algorithms including Random Forest, Gradient Boosting, Decision Tree, and Support Vector Machine.
+    \item \textbf{Selection Metric:} Primary evaluation metric was accuracy, with additional consideration of weighted F1-score, precision, and recall to account for class imbalance.
+    \item \textbf{Hyperparameter Tuning:} Used GridSearchCV with 3-fold cross-validation to optimize hyperparameters for each model.
+\end{itemize}
+
+\subsubsection{Evaluation Methodology}
+\begin{itemize}
+    \item \textbf{Cross-Validation:} Implemented 5-fold stratified cross-validation to assess model stability and generalization.
+    \item \textbf{Multiple Metrics:} Evaluated models using accuracy, precision, recall, F1-score (both macro and weighted averages), and per-class performance metrics.
+    \item \textbf{Learning Curves:} Analyzed bias-variance tradeoff through learning curve analysis to detect overfitting or underfitting.
+    \item \textbf{Feature Importance:} Analyzed feature importance from Random Forest to understand model interpretability and feature contributions.
+\end{itemize}
+
+\section{Data Analysis}
+
+\subsection{Dataset Statistics}
+The dataset exhibits significant class imbalance:
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Class} & \textbf{Count} & \textbf{Percentage} \\
+\midrule
+DEBRIS & 8,431 & 58.66\% \\
+PAYLOAD & 4,950 & 34.44\% \\
+ROCKET BODY & 744 & 5.18\% \\
+TBA & 247 & 1.72\% \\
+\bottomrule
+\end{tabular}
+\caption{Class Distribution}
+\label{tab:class_dist}
+\end{table}
+
+\textbf{Imbalance Ratio:} 34.13:1 (highly imbalanced)
+
+\subsection{Data Cleaning}
+\subsubsection{Missing Values}
+\begin{itemize}
+    \item Dropped \texttt{DECAY\_DATE} column (100\% missing)
+    \item Filled numerical missing values with median (robust to outliers)
+    \item Filled categorical missing values with mode
+    \item Final dataset: 0 missing values (100\% complete)
+\end{itemize}
+
+\subsubsection{Outlier Detection}
+Applied IQR (Interquartile Range) method:
+\begin{itemize}
+    \item \texttt{MEAN\_MOTION}: 2,371 outliers
+    \item \texttt{ECCENTRICITY}: 2,025 outliers
+    \item \texttt{NORAD\_CAT\_ID}: 39 outliers
+\end{itemize}
+
+\textbf{Decision:} Retained outliers as they represent legitimate space phenomena (highly eccentric orbits, Molniya orbits, etc.)
+
+\subsection{Exploratory Data Analysis}
+
+\subsubsection{Correlation Analysis}
+Identified highly correlated feature pairs ($|r| > 0.8$):
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Feature Pair} & \textbf{Correlation} \\
+\midrule
+MEAN\_MOTION $\leftrightarrow$ SEMIMAJOR\_AXIS & -0.871 \\
+MEAN\_MOTION $\leftrightarrow$ APOAPSIS & -0.879 \\
+SEMIMAJOR\_AXIS $\leftrightarrow$ PERIOD & 0.926 \\
+SEMIMAJOR\_AXIS $\leftrightarrow$ APOAPSIS & 0.949 \\
+PERIOD $\leftrightarrow$ APOAPSIS & 0.883 \\
+\bottomrule
+\end{tabular}
+\caption{Highly Correlated Features}
+\label{tab:correlation}
+\end{table}
+
+\subsubsection{Principal Component Analysis}
+\begin{itemize}
+    \item Original features: 13 numerical features
+    \item Components for 95\% variance: 10 components
+    \item Components for 90\% variance: 8 components
+    \item \textbf{Reduction ratio:} ~23\% reduction while preserving 95\% variance
+    \item First 2 PCs explain ~60\% of total variance
+    \item First 3 PCs explain ~72\% of total variance
+\end{itemize}
+
+\section{Feature Engineering}
+
+\subsection{Feature Selection}
+Selected 15 relevant features for modeling:
+
+\textbf{Numerical Features (13):}
+\begin{itemize}
+    \item MEAN\_MOTION, ECCENTRICITY, INCLINATION
+    \item RA\_OF\_ASC\_NODE, ARG\_OF\_PERICENTER, MEAN\_ANOMALY
+    \item BSTAR, MEAN\_MOTION\_DOT
+    \item SEMIMAJOR\_AXIS, PERIOD, APOAPSIS, PERIAPSIS
+    \item REV\_AT\_EPOCH
+\end{itemize}
+
+\textbf{Categorical Features (2):}
+\begin{itemize}
+    \item COUNTRY\_CODE (99 unique values)
+    \item CLASSIFICATION\_TYPE
+\end{itemize}
+
+\subsection{Engineered Features}
+Created two new categorical features:
+
+\begin{enumerate}
+    \item \textbf{Orbit Eccentricity Category:}
+    \begin{itemize}
+        \item Circular: $e \in [0, 0.1]$
+        \item Elliptical: $e \in (0.1, 0.4]$
+        \item Highly Elliptical: $e \in (0.4, 1.0]$
+    \end{itemize}
+    
+    \item \textbf{Altitude Category:}
+    \begin{itemize}
+        \item LEO (Low Earth Orbit): $a < 8,000$ km
+        \item MEO (Medium Earth Orbit): $8,000 \leq a < 20,000$ km
+        \item GEO (Geostationary Orbit): $20,000 \leq a < 42,000$ km
+        \item Beyond GEO: $a \geq 42,000$ km
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Final Feature Count:} 19 features (15 original + 2 engineered + 2 encoded categorical)
+
+\section{Data Preprocessing}
+
+\subsection{Data Splitting}
+Stratified train-validation-test split to maintain class distribution:
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Set} & \textbf{Samples} & \textbf{Percentage} \\
+\midrule
+Training & 10,065 & 70.0\% \\
+Validation & 2,151 & 15.0\% \\
+Test & 2,156 & 15.0\% \\
+\bottomrule
+\end{tabular}
+\caption{Data Split}
+\label{tab:data_split}
+\end{table}
+
+\subsection{Encoding}
+\begin{itemize}
+    \item Label encoding for categorical variables (\texttt{COUNTRY\_CODE}, \texttt{CLASSIFICATION\_TYPE})
+    \item Target encoding for multi-class classification (\texttt{OBJECT\_TYPE})
+\end{itemize}
+
+\subsection{Scaling}
+\begin{itemize}
+    \item Applied \texttt{StandardScaler} to all numerical features
+    \item Fitted scaler only on training data to prevent data leakage
+    \item Transformations applied to validation and test sets separately
+\end{itemize}
+
+\subsection{Class Imbalance Handling}
+\begin{itemize}
+    \item Detected significant imbalance (ratio: 34.13:1)
+    \item Applied \texttt{class\_weight='balanced'} in models
+    \item Considered SMOTE (Synthetic Minority Over-sampling Technique) for future improvements
+\end{itemize}
+
+\section{Model Development}
+
+\subsection{Model Selection}
+Evaluated multiple algorithms:
+
+\begin{enumerate}
+    \item \textbf{Logistic Regression} - Baseline model
+    \item \textbf{Random Forest Classifier} - Ensemble method (Best Model)
+    \item \textbf{Gradient Boosting} - Advanced ensemble
+    \item \textbf{Decision Tree} - Simple tree-based model
+    \item \textbf{Support Vector Machine} - Kernel-based classifier
+\end{enumerate}
+
+\subsection{Model Configurations}
+
+\subsubsection{Logistic Regression}
+\begin{itemize}
+    \item \texttt{max\_iter}: 1000
+    \item \texttt{class\_weight}: 'balanced'
+    \item \texttt{random\_state}: 42
+\end{itemize}
+
+\subsubsection{Random Forest Classifier (Best Model)}
+\begin{itemize}
+    \item \texttt{n\_estimators}: 100
+    \item \texttt{max\_depth}: 10
+    \item \texttt{class\_weight}: 'balanced'
+    \item \texttt{random\_state}: 42
+    \item \texttt{n\_jobs}: -1 (parallel processing)
+\end{itemize}
+
+\subsection{Hyperparameter Tuning}
+Used GridSearchCV with 3-fold cross-validation:
+\begin{itemize}
+    \item Random Forest: \texttt{n\_estimators} $\in \{50, 100, 200\}$, \texttt{max\_depth} $\in \{\text{None}, 10, 20\}$
+    \item Gradient Boosting: \texttt{n\_estimators} $\in \{50, 100, 200\}$, \texttt{learning\_rate} $\in \{0.01, 0.1, 0.2\}$, \texttt{max\_depth} $\in \{3, 5, 7\}$
+    \item Logistic Regression: \texttt{C} $\in \{0.1, 1.0, 10.0\}$, \texttt{penalty}: 'l2'
+\end{itemize}
+
+\section{Model Evaluation}
+
+\subsection{Baseline Model: Logistic Regression}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Metric} & \textbf{Score} \\
+\midrule
+Validation Accuracy & 64.90\% \\
+Weighted F1-Score & 71\% \\
+\bottomrule
+\end{tabular}
+\caption{Logistic Regression Performance}
+\label{tab:lr_perf}
+\end{table}
+
+\subsection{Best Model: Random Forest Classifier}
+
+\subsubsection{Overall Performance}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Metric} & \textbf{Score} \\
+\midrule
+Validation Accuracy & \metric{92.00\%} \\
+Test Accuracy & \highlight{93.65\%} \\
+Precision (weighted) & \metric{94\%} \\
+Recall (weighted) & \metric{94\%} \\
+F1-Score (weighted) & \metric{93\%} \\
+\bottomrule
+\end{tabular}
+\caption{Random Forest Overall Performance}
+\label{tab:rf_overall}
+\end{table}
+
+\subsubsection{Per-Class Performance}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
+DEBRIS (0) & 0.95 & 0.98 & 0.96 & 1,265 \\
+PAYLOAD (1) & 0.92 & 0.96 & 0.94 & 742 \\
+ROCKET BODY (2) & 0.90 & 0.55 & 0.69 & 112 \\
+TBA (3) & 1.00 & 0.24 & 0.39 & 37 \\
+\bottomrule
+\end{tabular}
+\caption{Random Forest Per-Class Performance (Test Set)}
+\label{tab:rf_perclass}
+\end{table}
+
+\subsubsection{Key Observations}
+\begin{itemize}
+    \item \checkmark Excellent performance on majority classes (DEBRIS, PAYLOAD)
+    \item \textcolor{accentorange}{$\triangle$} Lower recall on minority classes (ROCKET BODY, TBA) due to class imbalance
+    \item \checkmark Overall model is production-ready with 93.65\% accuracy
+\end{itemize}
+
+\subsection{Advanced Evaluation Techniques}
+
+\subsubsection{Cross-Validation}
+\begin{itemize}
+    \item 5-Fold Stratified Cross-Validation
+    \item Random Forest CV Score: ~92\% ($\pm$1.5\%)
+    \item Demonstrates model stability and consistency
+\end{itemize}
+
+\subsubsection{Learning Curves}
+\begin{itemize}
+    \item Analyzed bias-variance tradeoff
+    \item Assessed overfitting/underfitting
+    \item Training and validation curves converge at high performance
+    \item Model shows good generalization
+\end{itemize}
+
+\subsubsection{Feature Importance}
+Top features identified by Random Forest:
+\begin{enumerate}
+    \item MEAN\_MOTION
+    \item PERIOD
+    \item SEMIMAJOR\_AXIS
+    \item APOAPSIS
+    \item ECCENTRICITY
+    \item INCLINATION
+    \item PERIAPSIS
+    \item BSTAR
+\end{enumerate}
+
+\section{Model Deployment}
+
+\subsection{Pipeline Architecture}
+The project implements a modular pipeline:
+
+\begin{itemize}
+    \item \textbf{Data Ingestion:} Loads and splits data
+    \item \textbf{Data Transformation:} Preprocessing and feature engineering
+    \item \textbf{Model Training:} Trains and evaluates multiple models
+    \item \textbf{Prediction Pipeline:} Makes predictions on new data
+    \item \textbf{Web Application:} Flask-based web interface
+\end{itemize}
+
+\subsection{Production Components}
+\begin{itemize}
+    \item Saved artifacts: \texttt{model.pkl}, \texttt{preprocessor.pkl}, \texttt{scaler.pkl}
+    \item Label encoders for categorical variables
+    \item Comprehensive logging system
+    \item Error handling and exception management
+\end{itemize}
+
+\subsection{Web Application}
+\begin{itemize}
+    \item Framework: Flask
+    \item Features: Real-time predictions, interactive interface
+    \item Deployment: Production-ready with error handling
+\end{itemize}
+
+\section{Project Structure}
+
+The project follows best practices with modular architecture:
+
+\begin{verbatim}
+idse_project/
+|-- src/                          # Source package
+|   |-- components/               # Pipeline components
+|   |   |-- data_ingestion.py
+|   |   |-- data_transformation.py
+|   |   \-- model_trainer.py
+|   |-- pipeline/                 # Training & prediction pipelines
+|   |   |-- train_pipeline.py
+|   |   \-- predict_pipeline.py
+|   |-- feature_engineering.py
+|   |-- logger.py
+|   \-- utils.py
+|-- notebook/                     # Jupyter notebooks
+|   |-- 1_EDA_Analysis.ipynb
+|   \-- 2_Model_Training.ipynb
+|-- artifacts/                    # Saved models & preprocessors
+|-- webapp/                       # Flask web application
+|-- run_pipeline.py              # Main execution script
+\-- requirements.txt             # Dependencies
+\end{verbatim}
+
+\section{Key Learnings and Best Practices}
+
+\subsection{Best Practices Implemented}
+\begin{enumerate}
+    \item \textbf{Data Cleaning:}
+    \begin{itemize}
+        \item Systematic approach to missing values
+        \item Domain-aware outlier handling
+        \item Duplicate detection and removal
+    \end{itemize}
+    
+    \item \textbf{Preprocessing:}
+    \begin{itemize}
+        \item Proper train-test splitting before scaling
+        \item StandardScaler for feature normalization
+        \item Label encoding for categorical variables
+    \end{itemize}
+    
+    \item \textbf{Modeling:}
+    \begin{itemize}
+        \item Started with simple baseline (Logistic Regression)
+        \item Progressive complexity (Random Forest)
+        \item Cross-validation for robust evaluation
+    \end{itemize}
+    
+    \item \textbf{Evaluation:}
+    \begin{itemize}
+        \item Multiple metrics (Accuracy, Precision, Recall, F1)
+        \item Confusion matrix analysis
+        \item Per-class performance evaluation
+        \item Learning curves for bias-variance analysis
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Common Pitfalls Avoided}
+\begin{itemize}
+    \item \checkmark \textbf{No Data Leakage:} Fitted scaler only on training data
+    \item \checkmark \textbf{Class Imbalance Awareness:} Applied class weights
+    \item \checkmark \textbf{Proper Validation:} Used stratified K-fold cross-validation
+    \item \checkmark \textbf{Feature Scaling:} Scaled features for distance-based algorithms
+    \item \checkmark \textbf{Overfitting Prevention:} Monitored train vs validation performance
+\end{itemize}
+
+\section{Results / Visualizations}
+
+\subsection{Visualizations}
+The project includes comprehensive visualizations that provide insights into the data distribution, model performance, and feature relationships. Key visualizations generated during the analysis include:
+
+\subsubsection{Exploratory Data Analysis Visualizations}
+\begin{itemize}
+    \item \textbf{Correlation Heatmap:} Visual representation of feature correlations, identifying highly correlated pairs (e.g., MEAN\_MOTION $\leftrightarrow$ SEMIMAJOR\_AXIS: -0.871, SEMIMAJOR\_AXIS $\leftrightarrow$ PERIOD: 0.926)
+    \item \textbf{Distribution Plots:} Histograms and density plots showing the distribution of numerical features across different object types
+    \item \textbf{Box Plots:} Visualization of feature distributions and outlier detection for key orbital parameters
+    \item \textbf{Scatter Plots:} Feature relationship analysis, particularly for correlated orbital parameters
+    \item \textbf{Class Distribution Visualization:} Bar charts and pie charts showing the imbalanced nature of the dataset (DEBRIS: 58.66\%, PAYLOAD: 34.44\%, ROCKET BODY: 5.18\%, TBA: 1.72\%)
+\end{itemize}
+
+\subsubsection{Model Performance Visualizations}
+\begin{itemize}
+    \item \textbf{Confusion Matrix:} Heatmap visualization showing per-class prediction accuracy, highlighting strong performance on majority classes (DEBRIS, PAYLOAD) and lower recall on minority classes (ROCKET BODY, TBA)
+    \item \textbf{Feature Importance Plot:} Bar chart displaying the top 8 most important features identified by Random Forest (MEAN\_MOTION, PERIOD, SEMIMAJOR\_AXIS, APOAPSIS, ECCENTRICITY, INCLINATION, PERIAPSIS, BSTAR)
+    \item \textbf{Learning Curves:} Training and validation accuracy curves demonstrating model convergence and generalization capability, showing minimal overfitting
+    \item \textbf{ROC-AUC Curves:} Multi-class ROC curves using one-vs-rest approach, showing high AUC scores for DEBRIS and PAYLOAD classes
+    \item \textbf{Per-Class Performance Metrics:} Visual comparison of precision, recall, and F1-scores across all four classes
+\end{itemize}
+
+\subsubsection{Dimensionality Reduction Visualizations}
+\begin{itemize}
+    \item \textbf{PCA Scree Plot:} Visualization showing the cumulative variance explained by principal components, indicating that 10 components explain 95\% of variance
+    \item \textbf{PCA 2D/3D Projections:} Scatter plots showing data distribution in reduced dimensional space, visualizing class separability
+\end{itemize}
+
+\subsubsection{Key Visualizations Included}
+The following figures demonstrate critical aspects of the analysis:
+
+\begin{figure}[H]
+\centering
+% Uncomment and add path when figures are exported from notebooks
+% \includegraphics[width=0.8\textwidth]{figures/confusion_matrix.png}
+\caption{Confusion Matrix for Random Forest Classifier on Test Set. The diagonal elements show correct predictions, with strong performance on DEBRIS and PAYLOAD classes.}
+\label{fig:confusion_matrix}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+% Uncomment and add path when figures are exported from notebooks
+% \includegraphics[width=0.8\textwidth]{figures/feature_importance.png}
+\caption{Feature Importance Plot showing the top 8 most influential features identified by Random Forest classifier. MEAN\_MOTION and PERIOD are the most significant predictors.}
+\label{fig:feature_importance}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+% Uncomment and add path when figures are exported from notebooks
+% \includegraphics[width=0.8\textwidth]{figures/cross_validation.png}
+\caption{Cross-Validation Results showing model stability across 5 folds. The Random Forest classifier demonstrates consistent performance with low variance.}
+\label{fig:cross_validation}
+\end{figure}
+
+\textbf{Note:} To include the actual visualizations in this PDF report, export the figures from the Jupyter notebooks (\texttt{notebook/1\_EDA\_Analysis.ipynb} and \texttt{notebook/2\_Model\_Training.ipynb}) as PNG or PDF files and place them in a \texttt{figures/} directory. Then uncomment the \texttt{\textbackslash includegraphics} commands above and update the file paths accordingly. Detailed visualizations with interactive features are available in the Jupyter notebooks.
+
+\subsection{Summary of Results}
+\begin{itemize}
+    \item \textbf{Best Model:} \highlight{Random Forest Classifier}
+    \item \textbf{Test Accuracy:} \highlight{93.65\%}
+    \item \textbf{Weighted F1-Score:} \metric{93\%}
+    \item \textbf{Model Stability:} Consistent performance across cross-validation folds
+\end{itemize}
+
+\subsection{Strengths}
+\begin{itemize}
+    \item High accuracy on majority classes (DEBRIS: 96\% F1, PAYLOAD: 94\% F1)
+    \item Robust preprocessing pipeline
+    \item Production-ready deployment system
+    \item Comprehensive evaluation metrics
+\end{itemize}
+
+\subsection{Limitations}
+\begin{itemize}
+    \item Lower recall on minority classes (ROCKET BODY: 55\%, TBA: 24\%)
+    \item Class imbalance affects minority class performance
+    \item Could benefit from more sophisticated resampling techniques
+\end{itemize}
+
+\subsection{Future Improvements}
+\begin{enumerate}
+    \item \textbf{Hyperparameter Tuning:} More extensive GridSearchCV/RandomizedSearchCV
+    \item \textbf{Ensemble Methods:} Stacking, voting classifiers
+    \item \textbf{Deep Learning:} Neural networks for complex pattern recognition
+    \item \textbf{Advanced Feature Engineering:} Domain-specific transformations
+    \item \textbf{Time-Series Analysis:} Orbital decay pattern prediction
+    \item \textbf{SMOTE Implementation:} Better handling of class imbalance
+    \item \textbf{Model Interpretability:} SHAP values, LIME explanations
+\end{enumerate}
+
+\section{Technical Specifications}
+
+\subsection{Technologies Used}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Category} & \textbf{Technology} \\
+\midrule
+Programming Language & Python 3.8+ \\
+Data Manipulation & Pandas, NumPy \\
+Visualization & Matplotlib, Seaborn \\
+Machine Learning & Scikit-learn 1.0+ \\
+Class Imbalance & Imbalanced-learn \\
+Web Framework & Flask 2.3+ \\
+Development & Jupyter Notebook \\
+\bottomrule
+\end{tabular}
+\caption{Technology Stack}
+\label{tab:tech_stack}
+\end{table}
+
+\subsection{Model Algorithms}
+\begin{itemize}
+    \item Logistic Regression
+    \item Random Forest Classifier
+    \item Gradient Boosting Classifier
+    \item Decision Tree Classifier
+    \item Support Vector Machine
+\end{itemize}
+
+\section{How to Execute Your Code}
+
+This section provides step-by-step instructions for executing the project code, from initial setup to running predictions and deploying the web application.
+
+\subsection{Prerequisites}
+\begin{itemize}
+    \item Python 3.8 or higher
+    \item pip package manager
+    \item Git (for cloning the repository, if applicable)
+\end{itemize}
+
+\subsection{Installation Steps}
+
+\subsubsection{Step 1: Clone and Navigate to Project Directory}
+\begin{verbatim}
+git clone https://github.com/thenithin342/Space-decay-prediction-machine-learning-project.git
+cd Space-decay-prediction-machine-learning-project
+\end{verbatim}
+
+\subsubsection{Step 2: Install Dependencies}
+Install all required packages using one of the following methods:
+
+\textbf{Option A: Install from requirements.txt}
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+
+\textbf{Option B: Install as a package (recommended for development)}
+\begin{verbatim}
+pip install -e .
+\end{verbatim}
+
+\subsubsection{Step 3: Verify Installation}
+Verify that the installation was successful:
+\begin{verbatim}
+python -c "from src import logger; print('Installation successful!')"
+\end{verbatim}
+
+\subsection{Executing the Training Pipeline}
+
+\subsubsection{Method 1: Using the Main Pipeline Script}
+Run the complete data ingestion pipeline:
+\begin{verbatim}
+python run_pipeline.py
+\end{verbatim}
+
+This script will:
+\begin{itemize}
+    \item Load and split the dataset (\texttt{space\_decay.csv})
+    \item Create train and test data files in the \texttt{artifacts} directory
+    \item Provide instructions for running the Jupyter notebooks
+\end{itemize}
+
+\subsubsection{Method 2: Using Jupyter Notebooks}
+For exploratory analysis and model training:
+
+\textbf{Step 1: Run Exploratory Data Analysis}
+\begin{verbatim}
+cd notebook
+jupyter notebook 1_EDA_Analysis.ipynb
+\end{verbatim}
+
+This notebook contains:
+\begin{itemize}
+    \item Data loading and initial exploration
+    \item Missing value analysis
+    \item Outlier detection
+    \item Correlation analysis
+    \item Data visualizations
+\end{itemize}
+
+\textbf{Step 2: Run Model Training}
+After completing EDA, run the model training notebook:
+\begin{verbatim}
+jupyter notebook 2_Model_Training.ipynb
+\end{verbatim}
+
+This notebook includes:
+\begin{itemize}
+    \item Feature engineering
+    \item Data preprocessing
+    \item Model training and evaluation
+    \item Model performance visualization
+    \item Model saving
+\end{itemize}
+
+\subsubsection{Method 3: Using the Training Pipeline Module}
+Execute the training pipeline programmatically:
+\begin{verbatim}
+python -m src.pipeline.train_pipeline
+\end{verbatim}
+
+Or import and use in Python:
+\begin{lstlisting}
+from src.pipeline.train_pipeline import TrainPipeline
+
+pipeline = TrainPipeline()
+accuracy = pipeline.run_pipeline(
+    data_path="space_decay.csv",
+    target_column="OBJECT_TYPE",
+    test_size=0.15
+)
+print(f"Model accuracy: {accuracy:.4f}")
+\end{lstlisting}
+
+\subsection{Making Predictions}
+
+\subsubsection{Method 1: Using the Prediction Pipeline}
+\begin{lstlisting}
+from src.pipeline.predict_pipeline import PredictPipeline
+import pandas as pd
+
+# Initialize prediction pipeline
+predictor = PredictPipeline()
+
+# Prepare input data (example)
+input_data = pd.DataFrame({
+    'MEAN_MOTION': [12.96],
+    'ECCENTRICITY': [0.0026],
+    'INCLINATION': [90.27],
+    # ... other features
+})
+
+# Make prediction
+prediction = predictor.predict(input_data)
+print(f"Predicted class: {prediction}")
+\end{lstlisting}
+
+\subsubsection{Method 2: Using Saved Model Artifacts}
+Load pre-trained model and make predictions:
+\begin{lstlisting}
+import pickle
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+# Load saved artifacts
+with open('artifacts/model.pkl', 'rb') as f:
+    model = pickle.load(f)
+    
+with open('artifacts/preprocessor.pkl', 'rb') as f:
+    preprocessor = pickle.load(f)
+
+# Prepare and preprocess new data
+# ... (follow preprocessing steps)
+# Make prediction
+prediction = model.predict(preprocessed_data)
+\end{lstlisting}
+
+\subsection{Running the Web Application}
+
+\subsubsection{Step 1: Navigate to Web Application Directory}
+\begin{verbatim}
+cd webapp
+\end{verbatim}
+
+\subsubsection{Step 2: Start the Flask Application}
+\begin{verbatim}
+python app.py
+\end{verbatim}
+
+The application will start on \url{http://localhost:5000} (or the port specified in environment variable \texttt{PORT}).
+
+\subsubsection{Step 3: Access the Web Interface}
+Open a web browser and navigate to:
+\begin{verbatim}
+http://localhost:5000
+\end{verbatim}
+
+The web interface allows you to:
+\begin{itemize}
+    \item Input orbital parameters through an interactive form
+    \item Get real-time predictions of space object classification
+    \item View prediction probabilities for each class
+\end{itemize}
+
+\subsection{Project Structure Overview}
+The project follows a modular structure:
+\begin{itemize}
+    \item \texttt{src/components/}: Core pipeline components (data ingestion, transformation, model training)
+    \item \texttt{src/pipeline/}: Training and prediction pipelines
+    \item \texttt{notebook/}: Jupyter notebooks for EDA and model training
+    \item \texttt{artifacts/}: Saved models, preprocessors, and scalers
+    \item \texttt{webapp/}: Flask web application for interactive predictions
+    \item \texttt{run\_pipeline.py}: Main script to execute the complete pipeline
+\end{itemize}
+
+\subsection{Additional Notes}
+\begin{itemize}
+    \item Ensure that \texttt{space\_decay.csv} is in the project root directory or update the path in the scripts accordingly
+    \item Model artifacts are saved in the \texttt{artifacts/} directory after training
+    \item Logs are generated in the \texttt{logs/} directory for debugging and monitoring
+    \item For detailed usage instructions and examples, refer to \texttt{README.md}
+\end{itemize}
+
+\section{References}
+
+\begin{enumerate}
+    \item Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., \ldots{} Duchesnay, E. (2011). Scikit-learn: Machine Learning in Python. \textit{Journal of Machine Learning Research}, 12, 2825-2830.
+    
+    \item Chawla, N. V., Bowyer, K. W., Hall, L. O., \& Kegelmeyer, W. P. (2002). SMOTE: Synthetic Minority Over-sampling Technique. \textit{Journal of Artificial Intelligence Research}, 16, 321-357.
+    
+    \item Breiman, L. (2001). Random Forests. \textit{Machine Learning}, 45(1), 5-32.
+    
+    \item Scikit-learn Developers. (2023). \textit{Scikit-learn User Guide}. Retrieved from \url{https://scikit-learn.org/stable/user_guide.html}
+    
+    \item Space-Track.org. (2023). \textit{Space-Track API Documentation}. Retrieved from \url{https://www.space-track.org/documentation}
+    
+    \item Celestrak. (2023). \textit{Two-Line Element Set Format}. Retrieved from \url{https://celestrak.org/NORAD/documentation/tle-fmt.php}
+    
+    \item Hastie, T., Tibshirani, R., \& Friedman, J. (2009). \textit{The Elements of Statistical Learning: Data Mining, Inference, and Prediction} (2nd ed.). Springer.
+    
+    \item Géron, A. (2019). \textit{Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow} (2nd ed.). O'Reilly Media.
+    
+    \item VanderPlas, J. (2016). \textit{Python Data Science Handbook: Essential Tools for Working with Data}. O'Reilly Media.
+    
+    \item Flask Development Team. (2023). \textit{Flask Documentation}. Retrieved from \url{https://flask.palletsprojects.com/}
+    
+    \item Pandas Development Team. (2023). \textit{Pandas Documentation}. Retrieved from \url{https://pandas.pydata.org/docs/}
+    
+    \item NumPy Developers. (2023). \textit{NumPy Documentation}. Retrieved from \url{https://numpy.org/doc/}
+    
+    \item Matplotlib Development Team. (2023). \textit{Matplotlib Documentation}. Retrieved from \url{https://matplotlib.org/stable/contents.html}
+    
+    \item Seaborn Development Team. (2023). \textit{Seaborn Documentation}. Retrieved from \url{https://seaborn.pydata.org/}
+\end{enumerate}
+
+\section{Conclusion}
+
+This project successfully demonstrates a complete machine learning pipeline for space debris classification, achieving 93.65\% accuracy with a Random Forest classifier. The project follows industry best practices in data science, including proper data preprocessing, feature engineering, model evaluation, and deployment. While the model performs excellently on majority classes, future work should focus on improving minority class performance through advanced resampling techniques and ensemble methods.
+
+The production-ready system provides a solid foundation for real-world space debris tracking applications, contributing to improved space traffic management and collision avoidance systems.
+
+\newpage
+\section*{Appendix A: Model Performance Metrics}
+
+\subsection*{Confusion Matrix Analysis}
+The confusion matrix reveals:
+\begin{itemize}
+    \item Strong diagonal elements for DEBRIS and PAYLOAD classes
+    \item Some misclassification between minority classes
+    \item Overall high true positive rates for majority classes
+\end{itemize}
+
+\subsection*{ROC-AUC Analysis}
+\begin{itemize}
+    \item Multi-class ROC-AUC scores calculated using one-vs-rest approach
+    \item High AUC scores for DEBRIS and PAYLOAD classes
+    \item Lower AUC for minority classes due to imbalance
+\end{itemize}
+
+\section*{Appendix B: Code Examples}
+
+\subsection*{Model Training Pipeline}
+\begin{lstlisting}
+from src.components.model_trainer import ModelTrainer
+from src.components.data_transformation import DataTransformation
+
+# Initialize components
+data_transformation = DataTransformation()
+model_trainer = ModelTrainer()
+
+# Transform data
+train_arr, test_arr, _ = data_transformation.initiate_data_transformation(
+    train_path, test_path, target_column
+)
+
+# Train models
+best_score = model_trainer.initiate_model_trainer(train_arr, test_arr)
+\end{lstlisting}
+
+\subsection*{Prediction Pipeline}
+\begin{lstlisting}
+from src.pipeline.predict_pipeline import PredictPipeline
+
+# Initialize prediction pipeline
+predictor = PredictPipeline()
+
+# Make prediction
+prediction = predictor.predict(features)
+\end{lstlisting}
+
+\end{document}
+

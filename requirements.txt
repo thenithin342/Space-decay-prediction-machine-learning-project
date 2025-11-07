@@ -18,3 +18,10 @@ notebook>=6.4.0
 # Utilities
 scipy>=1.7.0
 
+# Web App
+Flask>=2.3.0
+# For production serving (Linux/macOS):
+gunicorn>=21.2.0
+# For production serving (Windows-friendly alternative):
+waitress>=2.1.0
+

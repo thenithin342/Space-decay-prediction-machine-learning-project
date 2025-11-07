@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Advanced space debris classification using machine learning" />
+  <title>Space Debris Classification</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="background-gradient"></div>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <div class="logo-icon">🚀</div>
+        <h1>Space Debris Classification</h1>
+        <p class="subtitle">ML-Powered Prediction System</p>
+        <p class="desc">Enter orbital parameters to classify space objects using advanced machine learning models.</p>
+      </div>
+    </header>
+
+    <section class="card main-card">
+      <div id="schema-loading" class="loading-state">
+        <div class="spinner"></div>
+        <span>Loading input schema…</span>
+      </div>
+      <form id="predict-form" class="hidden">
+        <div class="form-header">
+          <h2>Input Parameters</h2>
+          <p class="form-subtitle">Enter orbital and physical characteristics</p>
+        </div>
+        <div id="inputs" class="grid"></div>
+        <div class="actions">
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span class="btn-text">Run Prediction</span>
+            <span class="btn-icon">→</span>
+          </button>
+          <button type="button" id="fill-example" class="btn-secondary">
+            <span class="btn-text">Load Example</span>
+          </button>
+          <button type="button" id="clear-btn" class="btn-link">Clear All</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="result" class="card result-card hidden">
+      <div class="result-header">
+        <h2>Prediction Result</h2>
+        <div class="result-badge" id="result-badge"></div>
+      </div>
+      <div class="prediction-output-wrapper">
+        <pre id="prediction-output">—</pre>
+      </div>
+      <div id="viz" class="viz-grid">
+        <div class="viz-card">
+          <div class="viz-header">
+            <h3 class="viz-title">Class Probabilities</h3>
+            <span class="viz-subtitle">Confidence distribution</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="probaChart"></canvas>
+          </div>
+        </div>
+        <div class="viz-card">
+          <div class="viz-header">
+            <h3 class="viz-title">Input Visualization</h3>
+            <span class="viz-subtitle">Normalized features</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card info-card">
+      <h3>About</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon">✓</div>
+          <div class="info-content">
+            <strong>Auto-validation</strong>
+            <p>Inputs are validated based on model schema</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📊</div>
+          <div class="info-content">
+            <strong>Real-time Analysis</strong>
+            <p>Instant predictions with probability visualization</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🔬</div>
+          <div class="info-content">
+            <strong>Advanced ML</strong>
+            <p>Powered by trained Random Forest classifier</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
